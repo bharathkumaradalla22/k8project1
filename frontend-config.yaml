@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+  namespace: frontend-ns
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Kubernetes Calculator</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 50px; }
+            input { padding: 5px; margin: 5px; }
+            button { padding: 5px 15px; margin: 5px; background-color: #4CAF50; color: white; }
+            h3 { color: green; }
+        </style>
+    </head>
+    <body>
+        <h2>Kubernetes Calculator</h2>
+        <input id="a" type="number" placeholder="Number 1"> +
+        <input id="b" type="number" placeholder="Number 2">
+        <button onclick="calc()">Calculate Sum</button>
+        <h3 id="res">Result will appear here</h3>
+        <script>
+        async function calc() {
+            const valA = document.getElementById('a').value;
+            const valB = document.getElementById('b').value;
+            
+            if (!valA || !valB) {
+                document.getElementById('res').innerText = 'Please enter both numbers';
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://backend-service:5000/add', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({num1: valA, num2: valB})
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    document.getElementById('res').innerText = 'Result: ' + data.result;
+                } else {
+                    document.getElementById('res').innerText = 'Error: ' + data.error;
+                }
+            } catch (err) {
+                document.getElementById('res').innerText = 'Error: Cannot reach backend';
+                console.error(err);
+            }
+        }
+        </script>
+    </body>
+    </html>
