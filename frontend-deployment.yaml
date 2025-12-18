@@ -27,13 +27,11 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: nginx-frontend
-        image: nginx:alpine
+        image: YOUR_REGISTRY/k8s-calculator-frontend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           protocol: TCP
-        volumeMounts:
-        - name: html-volume
-          mountPath: /usr/share/nginx/html
         resources:
           requests:
             memory: "32Mi"
@@ -47,7 +45,18 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
-      volumes:
-      - name: html-volume
-        configMap:
-          name: frontend-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: frontend-ns
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30001
