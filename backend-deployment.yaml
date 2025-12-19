@@ -32,7 +32,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: python-backend
-        image: YOUR_REGISTRY/k8s-calculator-backend:latest
+        image: docker.io/bharathadalla/k8s-calculator-backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

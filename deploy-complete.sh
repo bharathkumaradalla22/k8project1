@@ -89,7 +89,7 @@ if grep -q "YOUR_REGISTRY" build-images.sh; then
     # Update deployment files
     echo "Updating deployment YAML files..."
     sed -i "s|YOUR_REGISTRY|$REGISTRY|g" backend-deployment.yaml
-    sed -i "s|YOUR_REGISTRY|$REGISTRY|g" frontend-deployment-updated.yaml
+    sed -i "s|YOUR_REGISTRY|$REGISTRY|g" frontend-deployment.yaml
     
 else
     # Registry already configured, extract it
@@ -155,7 +155,7 @@ if [ "$REGISTRY" == "localhost:5000" ]; then
     read -p "Update deployment files to use master IP? (y/n): " update_ip
     if [[ "$update_ip" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         sed -i "s|localhost:5000|$MASTER_IP:5000|g" backend-deployment.yaml
-        sed -i "s|localhost:5000|$MASTER_IP:5000|g" frontend-deployment-updated.yaml
+        sed -i "s|localhost:5000|$MASTER_IP:5000|g" frontend-deployment.yaml
         echo -e "${GREEN}✓ Deployment files updated${NC}"
         
         echo ""
