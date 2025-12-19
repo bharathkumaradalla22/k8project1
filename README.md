@@ -166,7 +166,7 @@ chmod +x deploy-complete.sh
 
 ```bash
 # Check all pods are running (should see 4 pods)
-kubectl get pods -n frontend-ns
+kubectl get pods -n namespace1
 
 # Expected output:
 # NAME                                   READY   STATUS    RESTARTS   AGE
@@ -176,7 +176,7 @@ kubectl get pods -n frontend-ns
 # frontend-deployment-xxxxx-zzzzz        1/1     Running   0          2m
 
 # Check services
-kubectl get svc -n frontend-ns
+kubectl get svc -n namespace1
 
 # Get your server's public IP
 curl http://checkip.amazonaws.com
@@ -230,7 +230,7 @@ kubectl apply -f backend-deployment.yaml
 kubectl apply -f frontend-deployment.yaml
 
 # Check status
-kubectl get pods -n frontend-ns
+kubectl get pods -n namespace1
 ```
 
 ---
@@ -279,7 +279,7 @@ kubectl apply -f frontend-deployment.yaml
 
 1. **Check pods are running:**
    ```bash
-   kubectl get pods -n frontend-ns
+   kubectl get pods -n namespace1
    # All should show "Running"
    ```
 
@@ -313,10 +313,10 @@ newgrp docker
 
 ```bash
 # Check pod logs
-kubectl logs <pod-name> -n frontend-ns
+kubectl logs <pod-name> -n namespace1
 
 # Check pod details
-kubectl describe pod <pod-name> -n frontend-ns
+kubectl describe pod <pod-name> -n namespace1
 
 # Common fixes:
 # 1. Rebuild images
@@ -324,8 +324,8 @@ kubectl describe pod <pod-name> -n frontend-ns
 ./push-images.sh
 
 # 2. Restart deployments
-kubectl rollout restart deployment backend-deployment -n frontend-ns
-kubectl rollout restart deployment frontend-deployment -n frontend-ns
+kubectl rollout restart deployment backend-deployment -n namespace1
+kubectl rollout restart deployment frontend-deployment -n namespace1
 ```
 
 ---
@@ -335,19 +335,19 @@ kubectl rollout restart deployment frontend-deployment -n frontend-ns
 ### Check Status
 ```bash
 # All resources in namespace
-kubectl get all -n frontend-ns
+kubectl get all -n namespace1
 
 # Watch pods in real-time
-kubectl get pods -n frontend-ns -w
+kubectl get pods -n namespace1 -w
 
 # Check pod logs
-kubectl logs <pod-name> -n frontend-ns
+kubectl logs <pod-name> -n namespace1
 
 # Detailed pod information
-kubectl describe pod <pod-name> -n frontend-ns
+kubectl describe pod <pod-name> -n namespace1
 
 # Check recent events
-kubectl get events -n frontend-ns --sort-by='.lastTimestamp'
+kubectl get events -n namespace1 --sort-by='.lastTimestamp'
 ```
 
 ### Update Application
@@ -362,14 +362,14 @@ cd ~/k8project1
 ./push-images.sh
 
 # Restart deployments (pulls new images)
-kubectl rollout restart deployment backend-deployment -n frontend-ns
-kubectl rollout restart deployment frontend-deployment -n frontend-ns
+kubectl rollout restart deployment backend-deployment -n namespace1
+kubectl rollout restart deployment frontend-deployment -n namespace1
 ```
 
 ### Clean Up
 ```bash
 # Delete everything
-kubectl delete namespace frontend-ns
+kubectl delete namespace namespace1
 
 # Redeploy
 kubectl apply -f backend-deployment.yaml
@@ -382,7 +382,7 @@ kubectl apply -f frontend-deployment.yaml
 kubectl top nodes
 
 # Pod resource usage
-kubectl top pods -n frontend-ns
+kubectl top pods -n namespace1
 ```
 
 ---
@@ -433,7 +433,7 @@ REGISTRY="123456789012.dkr.ecr.us-east-1.amazonaws.com"
 ┌────────────────┴─────────────────────────────┐
 │         Kubernetes Cluster                   │
 │                                              │
-│  Namespace: frontend-ns                      │
+│  Namespace: namespace1                      │
 │                                              │
 │  ┌──────────────────┐  ┌──────────────────┐ │
 │  │ Backend Pods (2) │  │Frontend Pods (2) │ │
@@ -475,7 +475,7 @@ For detailed architecture diagrams, see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 After deployment, verify:
 
-- [ ] 4 pods running in `frontend-ns` namespace
+- [ ] 4 pods running in `namespace1` namespace
 - [ ] All pods show "Running" status
 - [ ] 3 services created (2 backend, 1 frontend)
 - [ ] AWS Security Group ports 30001, 30002 open
@@ -507,10 +507,10 @@ After deployment, verify:
 
 If you encounter issues:
 
-1. Check pod status: `kubectl get pods -n frontend-ns`
-2. Check pod logs: `kubectl logs <pod-name> -n frontend-ns`
-3. Check pod details: `kubectl describe pod <pod-name> -n frontend-ns`
-4. Check events: `kubectl get events -n frontend-ns --sort-by='.lastTimestamp'`
+1. Check pod status: `kubectl get pods -n namespace1`
+2. Check pod logs: `kubectl logs <pod-name> -n namespace1`
+3. Check pod details: `kubectl describe pod <pod-name> -n namespace1`
+4. Check events: `kubectl get events -n namespace1 --sort-by='.lastTimestamp'`
 
 Common issues are covered in the **Troubleshooting** section above.
 
@@ -532,7 +532,7 @@ Common issues are covered in the **Troubleshooting** section above.
 - **Port**: 80
 
 ### Kubernetes Configuration
-- **Namespace**: frontend-ns
+- **Namespace**: namespace1
 - **Replicas**: 2 for each service (4 pods total)
 - **Pod Anti-Affinity**: Distributes pods across nodes
 - **Resource Limits**: 

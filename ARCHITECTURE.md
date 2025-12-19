@@ -121,8 +121,8 @@ Benefits:
 ┌─────────────────────────────────────────────────────┐
 │ Step 5: Verify & Access                             │
 │                                                      │
-│  $ kubectl get pods -n frontend-ns                  │
-│  $ kubectl get svc -n frontend-ns                   │
+│  $ kubectl get pods -n namespace1                  │
+│  $ kubectl get svc -n namespace1                   │
 │                                                      │
 │  Access: http://<NODE_IP>:30001                     │
 └─────────────────────────────────────────────────────┘
@@ -135,7 +135,7 @@ Benefits:
 │                  Kubernetes Cluster                 │
 │                                                      │
 │  ┌────────────────────────────────────────────┐   │
-│  │         Namespace: frontend-ns             │   │
+│  │         Namespace: namespace1             │   │
 │  │                                            │   │
 │  │  ┌──────────────┐    ┌──────────────┐    │   │
 │  │  │  Frontend    │    │  Backend     │    │   │
