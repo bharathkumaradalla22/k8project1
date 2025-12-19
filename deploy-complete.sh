@@ -217,18 +217,18 @@ echo -e "${YELLOW}Step 6: Waiting for Pods to be Ready${NC}"
 echo ""
 
 echo "Waiting for backend pods..."
-kubectl wait --for=condition=ready pod -l app=backend -n frontend-ns --timeout=180s || {
+kubectl wait --for=condition=ready pod -l app=backend -n namespace1 --timeout=180s || {
     echo -e "${RED}⚠️  Backend pods not ready within timeout${NC}"
     echo "Checking pod status..."
-    kubectl get pods -n frontend-ns -l app=backend
+    kubectl get pods -n namespace1 -l app=backend
 }
 
 echo ""
 echo "Waiting for frontend pods..."
-kubectl wait --for=condition=ready pod -l app=frontend -n frontend-ns --timeout=180s || {
+kubectl wait --for=condition=ready pod -l app=frontend -n namespace1 --timeout=180s || {
     echo -e "${RED}⚠️  Frontend pods not ready within timeout${NC}"
     echo "Checking pod status..."
-    kubectl get pods -n frontend-ns -l app=frontend
+    kubectl get pods -n namespace1 -l app=frontend
 }
 
 echo ""
@@ -240,11 +240,11 @@ echo -e "${YELLOW}Step 7: Deployment Status${NC}"
 echo ""
 
 echo "Pods:"
-kubectl get pods -n frontend-ns
+kubectl get pods -n namespace1
 echo ""
 
 echo "Services:"
-kubectl get svc -n frontend-ns
+kubectl get svc -n namespace1
 echo ""
 
 # ============================================
@@ -276,10 +276,10 @@ if [[ "$EXTERNAL_IP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 fi
 
 echo "Quick commands:"
-echo "  Check pods:    kubectl get pods -n frontend-ns"
-echo "  Check logs:    kubectl logs <pod-name> -n frontend-ns"
-echo "  Restart:       kubectl rollout restart deployment <name> -n frontend-ns"
-echo "  Delete all:    kubectl delete namespace frontend-ns"
+echo "  Check pods:    kubectl get pods -n namespace1"
+echo "  Check logs:    kubectl logs <pod-name> -n namespace1"
+echo "  Restart:       kubectl rollout restart deployment <name> -n namespace1"
+echo "  Delete all:    kubectl delete namespace namespace1"
 echo ""
 
 # ============================================
@@ -294,9 +294,9 @@ if [[ "$test_backend" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     sleep 2
     
     # Test from within cluster
-    BACKEND_POD=$(kubectl get pods -n frontend-ns -l app=backend -o jsonpath='{.items[0].metadata.name}')
+    BACKEND_POD=$(kubectl get pods -n namespace1 -l app=backend -o jsonpath='{.items[0].metadata.name}')
     if [ ! -z "$BACKEND_POD" ]; then
-        kubectl exec $BACKEND_POD -n frontend-ns -- curl -s http://localhost:5000/health
+        kubectl exec $BACKEND_POD -n namespace1 -- curl -s http://localhost:5000/health
         echo ""
     fi
     
@@ -309,7 +309,7 @@ echo ""
 echo -e "${GREEN}All done! 🚀${NC}"
 echo ""
 echo "If you encounter any issues:"
-echo "  1. Check pod logs: kubectl logs <pod-name> -n frontend-ns"
-echo "  2. Describe pod: kubectl describe pod <pod-name> -n frontend-ns"
-echo "  3. Check events: kubectl get events -n frontend-ns --sort-by='.lastTimestamp'"
+echo "  1. Check pod logs: kubectl logs <pod-name> -n namespace1"
+echo "  2. Describe pod: kubectl describe pod <pod-name> -n namespace1"
+echo "  3. Check events: kubectl get events -n namespace1 --sort-by='.lastTimestamp'"
 echo ""

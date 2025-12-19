@@ -35,7 +35,7 @@ Choose option 2 (Local Registry) when prompted
 
 ### 5. Verify
 ```bash
-kubectl get pods -n frontend-ns
+kubectl get pods -n namespace1
 # Should see 4 pods running
 ```
 
@@ -55,17 +55,17 @@ http://YOUR-MASTER-IP:30001
 
 ```bash
 # Check pods
-kubectl get pods -n frontend-ns
+kubectl get pods -n namespace1
 
 # Check logs
-kubectl logs <pod-name> -n frontend-ns
+kubectl logs <pod-name> -n namespace1
 
 # Restart
-kubectl rollout restart deployment backend-deployment -n frontend-ns
-kubectl rollout restart deployment frontend-deployment -n frontend-ns
+kubectl rollout restart deployment backend-deployment -n namespace1
+kubectl rollout restart deployment frontend-deployment -n namespace1
 
 # Start over
-kubectl delete namespace frontend-ns
+kubectl delete namespace namespace1
 ./deploy-complete.sh
 ```
 
